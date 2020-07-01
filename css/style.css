@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    min-height: 100vh;
+}
+
+header > * {
+  margin: 10px;
+}
+
+#title {
+  color: red;
+  font-weight: bolder;
+  font-size: 30px;
+  display: inline-block;
+}
+
+.container {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+.movie {
+  padding: 15px;
+  background-color: gray;
+  border: 2px solid white;
+  border-radius: 5px;
+}

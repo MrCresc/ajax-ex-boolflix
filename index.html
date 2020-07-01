@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>ex-dischi-musicali</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+      <header>
+        <h1 id="title">Boolflix</h1>
+        <input id="searchInput" type="text" name="" value="">
+        <button id="searchButton" type="button" name="button">Cerca</button>
+      </header>
+
+      <div class="container">
+
+      </div>
+
+      <script id="entry-template" type="text/x-handlebars-template">
+        <ul class="movie">
+          <li>{{title}}</li>
+          <li>{{original_title}}</li>
+          <li>{{original_language}}</li>
+          <li>{{vote_average}}</li>
+        </ul>
+      </script>
+
+
+      <script src="js/script.js" charset="utf-8"></script>
+    </body>
+</html>
