@@ -1,7 +1,9 @@
+// Rendo disponibili le funzionalità al solo caricamento completo del documento
 $(document).ready(function() {
-
+  // Applico le funzioni al click del tasto cerca
   $('#searchButton').click(function () {
     var valQuery = $('#searchInput').val()
+    // Applico una condizione che esegue le funzioni solo se il campo non è vuoto
     if (valQuery != '') {
       ajaxCall(valQuery)
     } else {
@@ -14,6 +16,7 @@ $(document).ready(function() {
     function (event) {
       if (event.which === 13) {
         var valQuery = $('#searchInput').val()
+        // Applico una condizione che esegue le funzioni solo se il campo non è vuoto
         if (valQuery != '') {
           ajaxCall(valQuery)
         } else {
@@ -22,6 +25,15 @@ $(document).ready(function() {
       }
     }
   )
+
+  // Al click di un titolo mostro la trama
+  $(document).on('click','.object',function () {
+    var overview = $(this).find('.overview').text()
+    // Applico una condizione che esegue le funzioni solo se c'è una trama
+    if (overview != '') {
+      $(this).find('.popup_info').fadeToggle()
+    }
+  })
 
   function ajaxCall(valQuery) {
     $.ajax(
@@ -82,18 +94,17 @@ $(document).ready(function() {
       var template = Handlebars.compile(source);
       for (var i = 0; i < array.length; i++) {
         var singleMovie = array[i]
-        var starVote = star(singleMovie.vote_average)
-        var poster = posterPath(singleMovie.poster_path)
         var context = {
-          poster: poster,
+          poster: posterPath(singleMovie.poster_path),
           title: singleMovie.title,
           original_title: singleMovie.original_title,
-          original_language: singleMovie.original_language,
-          vote_average: starVote
+          original_language: (singleMovie.original_language).toUpperCase(),
+          vote_average: star(singleMovie.vote_average),
+          langFlag: langFlag(singleMovie.original_language),
+          overview: singleMovie.overview
         }
-        // singleMovie.css("background-image", 'url(' + poster + ')')
+        console.log(singleMovie)
         var html = template(context);
-        console.log(html)
         container.append(html)
       }
 
@@ -109,14 +120,13 @@ $(document).ready(function() {
           total_tvs_results: singleTv.total_results,
           title: singleTv.name,
           original_title: singleTv.original_name,
-          original_language: singleTv.original_language,
-          vote_average: starVote
+          original_language: (singleTv.original_language).toUpperCase(),
+          vote_average: starVote,
+          langFlag: langFlag(singleTv.original_language)
         }
         console.log(singleTv)
-        // singleTv.css("background-image", 'url(' + poster + ')')
         var html = template(context);
         container.append(html)
-        console.log(poster)
       }
     }
 
@@ -139,12 +149,32 @@ $(document).ready(function() {
   }
 
   function posterPath(path) {
+    var finalPath = 'img/noPoster.jpg'
     if (path != null) {
       var finalPath = 'https://image.tmdb.org/t/p/'+'w500'+path
-    } else {
-      var finalPath = 'img/noPoster.jpg'
     }
     return finalPath
   }
 
+  function langFlag(language) {
+    var langFlagPath = 'img/noFlag.png'
+    if (language === 'en') {
+      langFlagPath = 'img/eng.png'
+    } else if (language === 'us') {
+      langFlagPath = 'img/usa.png'
+    } else if (language === 'it') {
+      langFlagPath = 'img/ita.png'
+    } else if (language === 'fr') {
+      langFlagPath = 'img/deu.png'
+    } else if (language === 'de') {
+      langFlagPath = 'img/fra.png'
+    } else if (language === 'es') {
+      langFlagPath = 'img/esp.png'
+    } else if (language === 'pt') {
+      langFlagPath = 'img/ptg.png'
+    } else if (language === 'ja') {
+      langFlagPath = 'img/jap.png'
+    }
+    return langFlagPath
+  }
 });
