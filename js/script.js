@@ -7,7 +7,7 @@ $(document).ready(function() {
     if (valQuery != '') {
       ajaxCall(valQuery)
     } else {
-      alert('Il campo è vuoto. La ricerca non ha prodotto risultati.')
+      alert('Il campo è vuoto.')
     }
   })
 
@@ -20,19 +20,26 @@ $(document).ready(function() {
         if (valQuery != '') {
           ajaxCall(valQuery)
         } else {
-          alert('Il campo è vuoto. La ricerca non ha prodotto risultati.')
+          alert('Il campo è vuoto.')
         }
       }
     }
   )
 
-  // Al click di un titolo mostro la trama
+  // Al mouse enter della copertina mostro le informazioni nascoste
+  $(document).on('mouseenter','.object',function () {
+    $(this).find('.popup_info').fadeIn(200).removeClass('hidden').css("display", "flex")
+  })
+
+  // Al mouse leave della copertina nascondo le informazioni
+  $(document).on('mouseleave','.object',function () {
+    $(this).find('.popup_info').fadeOut(200)
+  })
+
+  // Al click di un titolo mostro il collegamento alla pagina di TMDB
   $(document).on('click','.object',function () {
-    var overview = $(this).find('.overview').text()
-    // Applico una condizione che esegue le funzioni solo se c'è una trama
-    if (overview != '') {
-      $(this).find('.popup_info').fadeToggle()
-    }
+    var id = $(this).attr('idObject')
+    window.open('https://www.themoviedb.org/' + id + '?language=it-IT');
   })
 
   function ajaxCall(valQuery) {
@@ -46,9 +53,9 @@ $(document).ready(function() {
           language: 'it-IT'
         },
         success: function(dataMovies) {
-          movieContainer = $('.moviesContainer').html('')
+          moviesContainer = $('.moviesContainer').html('')
           if (dataMovies.total_results > 0) {
-            printObject(dataMovies.results,movieContainer,'movies')
+            printObject(dataMovies.results,moviesContainer,'movie')
           } else {
             var messaggio = 'Non ci sono film corrispondenti'
             $('.moviesContainer').append(messaggio)
@@ -69,16 +76,16 @@ $(document).ready(function() {
             query: valQuery,
             language: 'it-IT'
           },
-          success: function(dataMovies) {
-            tvContainer = $('.tvsContainer').html('')
-            if (dataMovies.total_results > 0) {
-              printObject(dataMovies.results,tvContainer,'tvs')
+          success: function(dataTvs) {
+            tvsContainer = $('.tvsContainer').html('')
+            if (dataTvs.total_results > 0) {
+              printObject(dataTvs.results,tvsContainer,'tv')
             } else {
               var messaggio = 'Non ci sono serie Tv corrispondenti'
               $('.tvsContainer').append(messaggio)
             }
             $('#searchInput').val('')
-            $('#tvsCounter').html('').append('Serie TV (' + dataMovies.total_results + ')')
+            $('#tvsCounter').html('').append('Serie TV (' + dataTvs.total_results + ')')
           },
           error: function () {
             alert('Attenzione si è verificato un errore')
@@ -89,63 +96,46 @@ $(document).ready(function() {
   }
 
   function printObject(array,container,type) {
-    if (type === 'movies') {
+     {
       var source = $('#entry-template').html()
       var template = Handlebars.compile(source);
       for (var i = 0; i < array.length; i++) {
-        var singleMovie = array[i]
-        var context = {
-          poster: posterPath(singleMovie.poster_path),
-          title: singleMovie.title,
-          original_title: singleMovie.original_title,
-          original_language: (singleMovie.original_language).toUpperCase(),
-          vote_average: star(singleMovie.vote_average),
-          langFlag: langFlag(singleMovie.original_language),
-          overview: singleMovie.overview
+        var singleObject = array[i]
+        if (type === 'movie') {
+         var title = singleObject.title
+         var originalTitle = singleObject.original_title
+        } else {
+         var title = singleObject.name
+         var originalTitle = singleObject.original_name
         }
-        console.log(singleMovie)
+        var context = {
+          poster: posterPath(singleObject.poster_path),
+          title: title,
+          original_title: originalTitle,
+          original_language: (singleObject.original_language).toUpperCase(),
+          vote_average: star(singleObject.vote_average),
+          langFlag: langFlag(singleObject.original_language),
+          overview: singleObject.overview,
+          id: type + '/' + singleObject.id
+        }
         var html = template(context);
         container.append(html)
       }
-
-    } else {
-      var source = $('#entry-template').html()
-      var template = Handlebars.compile(source);
-      for (var i = 0; i < array.length; i++) {
-        var singleTv = array[i]
-        var starVote = star(singleTv.vote_average)
-        var poster = posterPath(singleTv.poster_path)
-        var context = {
-          poster: poster,
-          total_tvs_results: singleTv.total_results,
-          title: singleTv.name,
-          original_title: singleTv.original_name,
-          original_language: (singleTv.original_language).toUpperCase(),
-          vote_average: starVote,
-          langFlag: langFlag(singleTv.original_language)
-        }
-        console.log(singleTv)
-        var html = template(context);
-        container.append(html)
-      }
+      console.log(array)
     }
-
   }
 
   function star(vote) {
     var voteApprox = Math.ceil((vote/2))
-    var emptyVote = 5 - voteApprox
     var starVote = ''
-    var emptyStarVote = ''
-    var totalStarVote = ''
-    for (var i = 0; i < voteApprox; i++) {
-      starVote += '<i class="fas fa-star"></i>'
+    for (var i = 1; i <= 5; i++) {
+      if (i <= voteApprox) {
+        starVote += '<i class="fas fa-star"></i>'
+      } else {
+        starVote += '<i class="far fa-star"></i>'
+      }
     }
-    for (var i = 0; i < emptyVote; i++) {
-      emptyStarVote += '<i class="far fa-star"></i>'
-    }
-    totalStarVote = starVote + emptyStarVote
-    return totalStarVote
+    return starVote
   }
 
   function posterPath(path) {
@@ -157,23 +147,11 @@ $(document).ready(function() {
   }
 
   function langFlag(language) {
+    var langArray = ['en','us','it','fr','de','es','pt','ja','ru','ro',
+    'zh','ko','tr','id','cs','hi','sv','he']
     var langFlagPath = 'img/noFlag.png'
-    if (language === 'en') {
-      langFlagPath = 'img/eng.png'
-    } else if (language === 'us') {
-      langFlagPath = 'img/usa.png'
-    } else if (language === 'it') {
-      langFlagPath = 'img/ita.png'
-    } else if (language === 'fr') {
-      langFlagPath = 'img/deu.png'
-    } else if (language === 'de') {
-      langFlagPath = 'img/fra.png'
-    } else if (language === 'es') {
-      langFlagPath = 'img/esp.png'
-    } else if (language === 'pt') {
-      langFlagPath = 'img/ptg.png'
-    } else if (language === 'ja') {
-      langFlagPath = 'img/jap.png'
+    if (langArray.includes(language)) {
+      langFlagPath = 'img/'+language+'.png'
     }
     return langFlagPath
   }

@@ -13,8 +13,10 @@
     <body>
       <header>
         <h1 id="title">Boolflix</h1>
-        <input id="searchInput" type="text" name="" value="" placeholder="Cerca un titolo">
-        <button id="searchButton" type="button" name="button">Cerca</button>
+        <div class="containerSearch">
+          <input id="searchInput" type="text" name="" value="" placeholder="Cerca un titolo">
+          <i id="searchButton" class="fas fa-search"></i>
+        </div>
       </header>
 
       <h2 id="moviesCounter">Movies</h2>
@@ -24,19 +26,17 @@
       <div class="tvsContainer"></div>
 
       <script id="entry-template" type="text/x-handlebars-template">
-        <div class="object">
+        <div class="object" idObject="{{id}}">
           <img class="poster" src="{{poster}}" alt="">
-          <div class="info">
-            <h2>{{title}}</h2>
+          <div class="popup_info hidden">
             <ul>
+              <li>
+                <h2>{{title}}</h2>
+              </li>
               <li>Titolo originale: {{original_title}}</li>
               <li>Lingua: {{original_language}}</li>
               <img class="langFlag" src="{{langFlag}}" alt="">
               <li>Voto: {{{vote_average}}}</li>
-            </ul>
-          </div>
-          <div class="popup_info hidden">
-            <ul>
               <li class="overview">{{overview}}</li>
             </ul>
           </div>
