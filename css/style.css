@@ -18,6 +18,7 @@ h1 {
 header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 header > * {
@@ -120,6 +121,15 @@ ul {
 
 /* Media query < 767px */
 @media screen and (max-width: 767px) {
+  #searchInput {
+    width: 100%;
+    margin: 0;
+  }
+
+  .fa-search {
+    display: none;
+  }
+
   .object {
     width: calc(100% - 20px);
   }
