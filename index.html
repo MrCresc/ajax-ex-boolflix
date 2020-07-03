@@ -12,18 +12,27 @@
     </head>
     <body>
       <header>
-        <h1 id="title">Boolflix</h1>
+        <img id="logo" src="img/logo.png" alt="logo">
         <div class="containerSearch">
           <input id="searchInput" type="text" name="" value="" placeholder="Cerca un titolo">
           <i id="searchButton" class="fas fa-search"></i>
         </div>
       </header>
 
-      <h2 id="moviesCounter">Movies</h2>
-      <div class="moviesContainer"></div>
+      <div id="error" class="hidden">
+        <div id="errorContainer">
+          <img src="img/logo.png" alt="logo">
+          <h2>Attenzione, sembra che tu non abbia digitato nulla...<br>riprova digitando almeno una lettera!</h2>
+        </div>
+      </div>
 
-      <h2 id="tvsCounter">Serie TV</h2>
-      <div class="tvsContainer"></div>
+      <div id="mainWrapper">
+        <h2 id="moviesCounter">Movies</h2>
+        <div class="moviesContainer"></div>
+
+        <h2 id="tvsCounter">Serie TV</h2>
+        <div class="tvsContainer"></div>
+      </div>
 
       <script id="entry-template" type="text/x-handlebars-template">
         <div class="object" idObject="{{id}}">
@@ -33,10 +42,10 @@
               <li>
                 <h2>{{title}}</h2>
               </li>
-              <li>Titolo originale: {{original_title}}</li>
-              <li>Lingua: {{original_language}}</li>
+              <li><h3>Titolo originale: </h3>{{original_title}}</li>
+              <li><h3>Lingua: </h3>{{original_language}}</li>
               <img class="langFlag" src="{{langFlag}}" alt="">
-              <li>Voto: {{{vote_average}}}</li>
+              <li><h3>Voto: </h3>{{{vote_average}}}</li>
               <li class="overview">{{overview}}</li>
             </ul>
           </div>

@@ -5,20 +5,26 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body {
   color: white;
   background-color: black;
   min-height: 100vh;
 }
 
-h1 {
-  text-transform: uppercase;
+#logo {
+  width: 250px;
+  cursor: pointer;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 110px;
 }
 
 header > * {
@@ -39,12 +45,40 @@ ul {
 #searchInput {
   padding: 5px 15px;
   margin-right: 10px;
+  background-color: black;
+  color: white;
+  border: 1px solid red;
+  width: 250px;
+}
+
+#searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 18px red;
+  transition: box-shadow 0.5s;
 }
 
 #searchButton {
   cursor: pointer;
   font-size: 25px;
   vertical-align: middle;
+}
+
+#error {
+  background-color: black;
+  width: 100%;
+  height: calc( 100vh - 110px);
+}
+
+#errorContainer {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+#errorContainer > img {
+  width: 100%;
 }
 
 #moviesCounter, #tvsCounter {
@@ -74,8 +108,8 @@ ul {
 }
 
 .object:hover {
-  transform: scale(102%);
-  transition: all 0.5s;
+  box-shadow: 0 0 18px red;
+  transition: box-shadow 0.5s;
 }
 
 .poster {
@@ -94,21 +128,22 @@ ul {
 .popup_info {
   position: absolute;
   display: flex;
-  padding: 10px;
+  padding: 20px;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.popup_info > ul {
+.overview {
+  margin-bottom: 30px;
+}
+
+.popup_info ul {
+  margin: auto;
   width: 80%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
 }
 
 .popup_info li {
@@ -121,6 +156,13 @@ ul {
 
 /* Media query < 767px */
 @media screen and (max-width: 767px) {
+
+  #logo {
+    width: 150px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
   #searchInput {
     width: 100%;
     margin: 0;
@@ -134,4 +176,28 @@ ul {
     width: calc(100% - 20px);
   }
 }
+/* Fine Media query < 761px */
+
+/* Media query < 767px */
+@media screen and (max-width: 349px) {
+
+  header {
+    display: block;
+    text-align: center;
+  }
+
+  #logo {
+    width: 80%;
+    margin: 20px 0;
+  }
+
+  /* header {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+
+  header > * {
+    padding: 0 10px;
+  } */
 /* Fine Media query < 761px */

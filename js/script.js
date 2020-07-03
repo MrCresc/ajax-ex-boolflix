@@ -1,13 +1,22 @@
 // Rendo disponibili le funzionalità al solo caricamento completo del documento
 $(document).ready(function() {
+  // Al click sul logo in alto a sinistra eseguo il reload della pagina
+  $('#logo').click(function() {
+    location.reload();
+  });
   // Applico le funzioni al click del tasto cerca
   $('#searchButton').click(function () {
     var valQuery = $('#searchInput').val()
     // Applico una condizione che esegue le funzioni solo se il campo non è vuoto
     if (valQuery != '') {
       ajaxCall(valQuery)
+      $('#mainWrapper').removeClass('hidden')
+      $('#error').addClass('hidden')
+    // Altrimenti eseguo il messaggio d'errore
     } else {
-      alert('Il campo è vuoto.')
+      $('#mainWrapper').addClass('hidden')
+      $('.object').remove()
+      $('#error').removeClass('hidden')
     }
   })
 
@@ -19,8 +28,13 @@ $(document).ready(function() {
         // Applico una condizione che esegue le funzioni solo se il campo non è vuoto
         if (valQuery != '') {
           ajaxCall(valQuery)
+          $('#mainWrapper').removeClass('hidden')
+          $('#error').addClass('hidden')
+        // Altrimenti eseguo il messaggio d'errore
         } else {
-          alert('Il campo è vuoto.')
+          $('#mainWrapper').addClass('hidden')
+          $('.object').remove()
+          $('#error').removeClass('hidden')
         }
       }
     }
@@ -28,12 +42,12 @@ $(document).ready(function() {
 
   // Al mouse enter della copertina mostro le informazioni nascoste
   $(document).on('mouseenter','.object',function () {
-    $(this).find('.popup_info').fadeIn(200).removeClass('hidden').css("display", "flex")
+    $(this).find('.popup_info').fadeIn(100).removeClass('hidden').css("display", "flex")
   })
 
   // Al mouse leave della copertina nascondo le informazioni
   $(document).on('mouseleave','.object',function () {
-    $(this).find('.popup_info').fadeOut(200)
+    $(this).find('.popup_info').fadeOut(100)
   })
 
   // Al click di un titolo mostro il collegamento alla pagina di TMDB
@@ -121,7 +135,6 @@ $(document).ready(function() {
         var html = template(context);
         container.append(html)
       }
-      console.log(array)
     }
   }
 
