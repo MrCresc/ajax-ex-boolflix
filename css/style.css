@@ -157,6 +157,12 @@ ul {
 /* Media query < 767px */
 @media screen and (max-width: 767px) {
 
+  #errorContainer {
+    padding: 30px;
+    position: static;
+    transform: none;
+  }
+
   #logo {
     width: 150px;
     cursor: pointer;
@@ -176,9 +182,9 @@ ul {
     width: calc(100% - 20px);
   }
 }
-/* Fine Media query < 761px */
+/* Fine Media query < 767px */
 
-/* Media query < 767px */
+/* Media query < 349px */
 @media screen and (max-width: 349px) {
 
   header {
@@ -188,10 +194,10 @@ ul {
 
   #logo {
     width: 80%;
-    margin: 20px 0;
+    margin: 20px 0 0;
   }
 
-  /* header {
+  header {
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -200,4 +206,4 @@ ul {
   header > * {
     padding: 0 10px;
   } */
-/* Fine Media query < 761px */
+/* Fine Media query < 349px
