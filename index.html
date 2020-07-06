@@ -35,7 +35,7 @@
       </div>
 
       <script id="entry-template" type="text/x-handlebars-template">
-        <div class="object" idObject="{{id}}">
+        <div class="object" typeObject="{{type}}" idObject="{{id}}">
           <img class="poster" src="{{poster}}" alt="">
           <div class="popup_info hidden">
             <ul>
@@ -44,12 +44,17 @@
               </li>
               <li><h3>Titolo originale: </h3>{{original_title}}</li>
               <li><h3>Lingua: </h3>{{original_language}}</li>
-              <img class="langFlag" src="{{langFlag}}" alt="">
+              <li><img class="langFlag" src="{{langFlag}}" alt=""></li>
               <li><h3>Voto: </h3>{{{vote_average}}}</li>
               <li class="overview">{{overview}}</li>
             </ul>
           </div>
         </div>
+      </script>
+
+      <script id="genres-actors-template" type="text/x-handlebars-template">
+        <li><h3>Genere: </h3>{{{ genres }}}</li>
+        <li><h3>Attori: </h3>{{{ actors }}}</li>
       </script>
 
 
